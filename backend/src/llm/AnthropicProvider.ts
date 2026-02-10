@@ -41,7 +41,7 @@ export class AnthropicProvider implements LLMProvider {
       if (error instanceof Anthropic.APIError) {
         if (error.status === 403) {
           throw new Error(
-            `Anthropic API permission denied for model "${this.model}". ` +
+            `Anthropic API permission denied for model "${this.model}": ${error.message}. ` +
             `Verify that your API key has access to this model, or set a different model ` +
             `via the PRIMARY_MODEL / EVALUATOR_MODEL environment variables.`
           );
