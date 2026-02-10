@@ -1,0 +1,26 @@
+{
+  "garden_id": "ending_bittersweet",
+  "display": {
+    "name": "Ending: Unfinished Song",
+    "description": "Some mysteries resist solving. You didn't find all the pieces, but you found something else \u2014 a connection to the people caught in this tragedy. Life goes on, imperfect and unresolved."
+  },
+
+  "lorebook": [
+    {
+      "id": "ending_bittersweet_setting",
+      "type": "constant",
+      "position": "before_char_defs",
+      "content": "[Scene: The corner caf\u00e9, two weeks later. Afternoon, just like the first time. The jazz is still playing. The light still filters through the blinds. Kobayashi is behind the counter. Nothing has visibly changed, but everything feels different.]"
+    },
+    {
+      "id": "ending_bittersweet_narration",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[Character: Kobayashi Mei. She's a little more at ease now, though the shadows under her eyes remain. She and the player developed a genuine connection. The investigation stalled \u2014 not enough evidence, too much political pressure. Ogawa is still free. But Kobayashi is slowly healing. She talks about opening her own bakery someday. She thanks the player for being kind when it mattered. The truth remains buried, but human connection endures. This is a BITTERSWEET ending about the limits of justice and the value of compassion.]"
+    }
+  ],
+
+  "evaluators": [],
+  "passages": [],
+  "scripted_opener": "Two weeks later, you push open the caf\u00e9 door. The familiar bell chimes. The familiar jazz plays. The familiar afternoon light paints golden stripes across the tables.\n\nKobayashi looks up, and this time her smile reaches her eyes. \"Your usual?\" she asks, already reaching for a cup.\n\nThe investigation didn't go anywhere. Not enough evidence, they said. Political complications, they said. The case file sits in a drawer somewhere, gathering dust.\n\nBut Kobayashi is here. And so are you.\n\n\"I've been thinking,\" she says, setting down your coffee. \"About maybe... opening a bakery someday. Somewhere small and quiet.\" She pauses. \"Thank you. For being kind.\""
+}

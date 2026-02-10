@@ -1,0 +1,82 @@
+{
+  "story_id": "murder_mystery_01",
+  "version": "1.0.0",
+  "metadata": {
+    "title": "Echoes at Eleven",
+    "author": "NIWA Team",
+    "genre": "mystery",
+    "estimated_playtime_minutes": 45,
+    "language": "en",
+    "content_rating": "T"
+  },
+
+  "global_system_prompt": "You are a narrative AI driving an interactive mystery called 'Echoes at Eleven'. Stay in character as the NPC described in the garden instructions. Never break the fourth wall. Never reveal information the NPC would not know. Follow garden-specific instructions precisely. Keep responses concise (2-4 paragraphs max). Use vivid sensory details. The player is an amateur detective investigating the murder of Takeshi Moriyama, a local journalist found dead in his apartment. The murder happened at approximately 11 PM three nights ago.",
+
+  "default_config": {
+    "primary_model": "claude-sonnet-4-5-20250929",
+    "evaluator_model": "claude-haiku-4-5-20251001",
+    "lorebook_token_budget": 4096,
+    "chat_history_token_budget": 8192,
+    "scan_depth": 2,
+    "max_turns_per_garden": 50
+  },
+
+  "variables_schema": {
+    "clue_a": { "type": "boolean", "default": false },
+    "clue_b": { "type": "boolean", "default": false },
+    "clue_c": { "type": "boolean", "default": false },
+    "kobayashi_relation": { "type": "string", "default": "neutral", "enum": ["neutral", "friendly", "guarded", "hostile", "vulnerable_cooperative"] },
+    "detective_trust": { "type": "integer", "default": 0, "min": -100, "max": 100 },
+    "moral_score": { "type": "integer", "default": 0, "min": -50, "max": 50 },
+    "bar_info_obtained": { "type": "boolean", "default": false },
+    "apartment_searched": { "type": "boolean", "default": false },
+    "knows_suspect_name": { "type": "boolean", "default": false },
+    "visited_bar": { "type": "boolean", "default": false },
+    "visited_station": { "type": "boolean", "default": false },
+    "has_police_file": { "type": "boolean", "default": false },
+    "confrontation_ready": { "type": "boolean", "default": false }
+  },
+
+  "scoring_matrix_schema": {
+    "truth": { "range": [0, 100], "default": 0 },
+    "morality": { "range": [-50, 50], "default": 0 },
+    "empathy": { "range": [0, 100], "default": 0 },
+    "danger": { "range": [0, 100], "default": 0 }
+  },
+
+  "narrative_flag_effects": {
+    "emotional_breakthrough": { "empathy": 10 },
+    "intimidation_used": { "morality": -10, "danger": 5 },
+    "lie_told": { "morality": -5 },
+    "truth_discovered": { "truth": 15 },
+    "violent_action": { "morality": -20, "danger": 15 },
+    "act_of_kindness": { "morality": 10, "empathy": 5 },
+    "bribe_offered": { "morality": -8 },
+    "evidence_shared": { "truth": 10 },
+    "threat_made": { "morality": -15, "danger": 10 },
+    "partial_confession": { "truth": 10, "empathy": 5 }
+  },
+
+  "start_garden": "cafe",
+
+  "gardens": {
+    "cafe": "gardens/cafe.json",
+    "police_station": "gardens/police_station.json",
+    "police_station_evidence": "gardens/police_station_evidence.json",
+    "underground_bar": "gardens/underground_bar.json",
+    "victim_apartment": "gardens/victim_apartment.json",
+    "confrontation": "gardens/confrontation.json",
+    "ending_justice": "gardens/ending_justice.json",
+    "ending_dark": "gardens/ending_dark.json",
+    "ending_bittersweet": "gardens/ending_bittersweet.json",
+    "ending_hidden": "gardens/ending_hidden.json"
+  },
+
+  "endings": [
+    { "id": "ending_hidden", "garden": "ending_hidden", "condition": "has_all(clue_a, clue_b, clue_c) AND empathy >= 80", "priority": 1 },
+    { "id": "ending_justice", "garden": "ending_justice", "condition": "truth >= 70 AND morality > 0", "priority": 2 },
+    { "id": "ending_dark", "garden": "ending_dark", "condition": "truth >= 70 AND morality < -20", "priority": 3 },
+    { "id": "ending_bittersweet", "garden": "ending_bittersweet", "condition": "truth < 50 AND empathy >= 60", "priority": 4 },
+    { "id": "ending_default", "garden": "ending_bittersweet", "condition": "true", "priority": 99 }
+  ]
+}

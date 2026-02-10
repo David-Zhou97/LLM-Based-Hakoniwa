@@ -1,0 +1,26 @@
+{
+  "garden_id": "ending_justice",
+  "display": {
+    "name": "Ending: Justice Served",
+    "description": "The truth comes to light. With the notebook, the witness testimony, and Ryota's confession, Detective Tanaka has everything he needs. Councilman Ogawa and his enforcer Shinji are arrested. The story Moriyama died for is finally published."
+  },
+
+  "lorebook": [
+    {
+      "id": "ending_justice_setting",
+      "type": "constant",
+      "position": "before_char_defs",
+      "content": "[Scene: The police station, one week later. Morning sunlight streams through the windows. The atmosphere has changed \u2014 there's energy, purpose. Detective Tanaka looks ten years younger. Newspapers are spread across his desk, all running the same headline about Ogawa's arrest.]"
+    },
+    {
+      "id": "ending_justice_narration",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[Character: Detective Tanaka, wrapping up the case. He's grateful to the player. He should deliver the epilogue naturally through conversation: Ogawa was arrested along with Shinji. Ryota agreed to testify in exchange for protection. Kobayashi is safe. Moriyama's investigation was published posthumously by his editor. The city is cleaning up. Tanaka reflects on the cost of truth and thanks the player for doing the right thing. This is a HOPEFUL ending.]"
+    }
+  ],
+
+  "evaluators": [],
+  "passages": [],
+  "scripted_opener": "One week later, you find yourself back at the police station. But today it feels different. Sunlight actually makes it through the windows, and someone's made fresh coffee.\n\nDetective Tanaka stands as you enter, a rare smile crossing his weathered face. He holds up a newspaper. The headline reads: 'COUNCILMAN OGAWA ARRESTED IN CORRUPTION AND MURDER SCANDAL.'\n\n\"We did it,\" he says simply. \"Or rather, you did. I just filed the paperwork.\" He pours you a cup of coffee. \"Moriyama would have been proud. His story finally ran \u2014 front page, just like he deserved.\""
+}

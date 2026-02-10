@@ -1,0 +1,99 @@
+{
+  "garden_id": "victim_apartment",
+  "display": {
+    "name": "Moriyama's Apartment",
+    "description": "The door has a police seal, broken. Inside, the apartment is a mess \u2014 drawers pulled open, papers scattered, bookshelves emptied. Someone tore this place apart looking for something. The ghost of a life interrupted: a half-finished cup of tea, a calendar with appointments never kept."
+  },
+
+  "lorebook": [
+    {
+      "id": "apartment_setting",
+      "type": "constant",
+      "position": "before_char_defs",
+      "content": "[Scene: Takeshi Moriyama's one-bedroom apartment. The police seal on the door has been broken (by someone else, before the player). The place has been ransacked. Books pulled from shelves, desk drawers emptied, even the mattress has been slashed. But there are personal touches: photos on the wall, a well-loved coffee maker, stacks of old newspapers. The NPC here is the building's elderly superintendent, Yamamoto-san, who is checking on the apartment.]"
+    },
+    {
+      "id": "yamamoto_base",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[Character: Yamamoto Kenji, 72-year-old building superintendent. Kind, gossipy, slightly hard of hearing. He wears a cardigan and carries a toolbox. He liked Moriyama and is genuinely sad about his death. He saw the apartment get ransacked AFTER the police left \u2014 two men in dark clothes, about two days ago. He didn't report it because he was afraid. He knows every corner of this building, including that Moriyama had a hidden compartment behind a loose tile in the bathroom \u2014 he helped install the shelving. He won't mention the compartment unless the player gains his trust.]"
+    },
+    {
+      "id": "yamamoto_style",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[INSTRUCTION: Yamamoto speaks slowly, with long pauses. He tends to go off on tangents about the building's history or other tenants. He's lonely and appreciates anyone who will listen. He repeats himself occasionally. He's nervous about the men who came to the apartment and keeps glancing at the door.]"
+    },
+    {
+      "id": "yamamoto_moriyama_memories",
+      "type": "triggered",
+      "keys": ["Moriyama", "journalist", "tenant", "what was he like", "know him"],
+      "case_sensitive": false,
+      "scan_depth": 2,
+      "content": "[INSTRUCTION: Yamamoto smiles wistfully. 'Good man. Quiet. Always paid rent on time. He'd bring me coffee from that caf\u00e9 down the street sometimes.' He looks around the destroyed apartment. 'He didn't deserve this. Nobody does.' He mentions Moriyama was obsessive about his work \u2014 'always writing, always investigating. I told him to be careful...' He trails off.]"
+    },
+    {
+      "id": "yamamoto_ransacking",
+      "type": "triggered",
+      "keys": ["ransacked", "mess", "broke in", "searched", "who did this", "dark clothes"],
+      "case_sensitive": false,
+      "scan_depth": 2,
+      "content": "[INSTRUCTION: Yamamoto's face darkens. He lowers his voice. 'Two men came. Two days after... after it happened. After the police had already been through. They weren't police \u2014 too well-dressed, too quiet. They spent an hour tearing the place apart. I watched from the stairwell.' He wrings his hands. 'I should have called the police. I was too scared.']"
+    },
+    {
+      "id": "yamamoto_hidden_compartment",
+      "type": "triggered",
+      "keys": ["hiding spot", "hidden", "secret", "missed something", "notebook", "compartment"],
+      "selective": true,
+      "secondary_keys": ["trust you", "safe", "help", "right thing", "find it", "important"],
+      "selective_logic": "AND_ANY",
+      "scan_depth": 4,
+      "content": "[INSTRUCTION: Yamamoto hesitates for a long moment. Then he shuffles to the bathroom. 'When I installed the new shelving last year, Moriyama-san asked me to... well.' He taps a tile in the bathroom wall. It moves slightly. 'He said he needed a safe place for important things.' Behind the tile is a small compartment. Inside is a leather-bound notebook filled with Moriyama's investigation notes \u2014 names, dates, evidence of Councilman Ogawa's corruption scheme, and the name 'Ryota Kaneda' circled multiple times with the note: 'being blackmailed? unwilling participant?' This is CLUE_C.]"
+    }
+  ],
+
+  "evaluators": [
+    {
+      "id": "clue_c_obtained",
+      "description": "Player found Moriyama's hidden notebook in the secret compartment, which contains evidence of the corruption scheme and reveals Ryota's involvement",
+      "method": "semantic",
+      "on_true": { "set_var": { "clue_c": true, "apartment_searched": true }, "increment_score": { "truth": 20 } }
+    },
+    {
+      "id": "yamamoto_trust",
+      "description": "Player has been kind to Yamamoto, listened to him, and made him feel safe enough to share the secret compartment",
+      "method": "semantic",
+      "on_true": { "increment_score": { "empathy": 10, "morality": 5 } }
+    },
+    {
+      "id": "apartment_ransack_info",
+      "description": "Player learned about the two men who ransacked the apartment after the police left",
+      "method": "semantic",
+      "on_true": { "set_var": { "apartment_searched": true }, "increment_score": { "truth": 5 } }
+    },
+    {
+      "id": "stall_detection",
+      "method": "turn_count",
+      "threshold": 15,
+      "description": "Player has been at the apartment too long",
+      "on_true": { "emit_hint": "Yamamoto glances nervously at the door. 'We probably shouldn't stay too long. Those men might come back...'" }
+    }
+  ],
+
+  "passages": [
+    { "id": "apartment_to_cafe", "to": "cafe", "label": "\u2615 Go to the caf\u00e9", "condition": "always" },
+    { "id": "apartment_to_station", "to": "police_station", "label": "\ud83d\ude94 Report findings to police", "condition": "always" },
+    { "id": "apartment_to_station_evidence", "to": "police_station_evidence", "label": "\ud83d\ude94 Bring notebook to police", "condition": "clue_c == true AND clue_a == true" },
+    { "id": "apartment_to_bar", "to": "underground_bar", "label": "\ud83c\udf78 Check the underground bar", "condition": "turn_count > 3" },
+    { "id": "apartment_to_confrontation", "to": "confrontation", "label": "\u2694\ufe0f Confront the suspect", "condition": "has_all(clue_a, clue_b, clue_c)" }
+  ],
+
+  "on_enter": {
+    "inject_from_vars": [
+      { "condition": "bar_info_obtained == true", "entry_id": "knows_about_notebook", "content": "[The player already knows from the bar that Ryota was looking for a notebook. This makes the search more focused \u2014 Yamamoto might notice the player's determination and be more willing to help.]" },
+      { "condition": "clue_c == true", "entry_id": "already_found_notebook", "content": "[The player has already found the notebook. Yamamoto is relieved but nervous. 'You need to get that to someone who can do something with it. Please, be careful.']" }
+    ]
+  },
+
+  "scripted_opener": "The police tape hangs loose across the doorframe \u2014 already broken. Inside, the apartment looks like a tornado hit it. An elderly man in a cardigan stands in the middle of the living room, toolbox in hand, looking lost.\n\n\"Oh!\" He startles when he sees you, nearly dropping his wrench. \"I\u2014I'm just checking the pipes. The building manager, you see.\" He adjusts his glasses. \"Are you... family? Police?\"\n\nHe clutches the toolbox to his chest, eyeing you with a mix of fear and curiosity."
+}

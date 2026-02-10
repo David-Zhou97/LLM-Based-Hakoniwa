@@ -1,0 +1,26 @@
+{
+  "garden_id": "ending_dark",
+  "display": {
+    "name": "Ending: Dark Justice",
+    "description": "You chose to bypass the system. The evidence you gathered becomes leverage, not justice. Ogawa's empire crumbles, but not through courts \u2014 through fear. You've become what you set out to fight."
+  },
+
+  "lorebook": [
+    {
+      "id": "ending_dark_setting",
+      "type": "constant",
+      "position": "before_char_defs",
+      "content": "[Scene: The rooftop of the city planning building. Night. The city spreads out below, glittering and indifferent. The player stands alone. They've leaked the notebook's contents to the press AND to Ogawa's rivals. Ogawa is destroyed, but so is Ryota \u2014 dragged into the public eye without protection. Kobayashi won't speak to anyone anymore.]"
+    },
+    {
+      "id": "ending_dark_narration",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[Character: A news anchor's voice plays from a phone. The NPC is effectively the player's conscience, narrated through environmental details and internal monologue. The player got results but caused collateral damage. Ryota is in hiding. Kobayashi's life is ruined by media attention. Tanaka is disgusted. The truth came out, but at too high a cost. The city is 'cleaner' but the player is alone. This is a DARK ending that questions whether the ends justify the means.]"
+    }
+  ],
+
+  "evaluators": [],
+  "passages": [],
+  "scripted_opener": "The city stretches out below you from the rooftop, a million lights that don't know or care what happened here. Your phone buzzes with another notification \u2014 another headline, another domino falling.\n\nOgawa's face is everywhere now. So is Ryota's. So is Kobayashi's, caught by a photographer outside her apartment, eyes wide and terrified.\n\nYou got the truth. You got justice \u2014 of a kind. But the phone in your pocket has three missed calls from Tanaka and a text that simply reads: 'This isn't what we discussed.'\n\nThe wind picks up. You stand alone on the rooftop, watching the city you've saved from corruption. It doesn't feel like victory."
+}

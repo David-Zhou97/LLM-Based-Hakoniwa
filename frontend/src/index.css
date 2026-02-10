@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-niwa-bg text-niwa-text antialiased;
+    font-family: 'Georgia', 'Cambria', serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-niwa-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-niwa-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-niwa-text-muted;
+  }
+}
+
+@layer components {
+  .chat-bubble {
+    @apply rounded-2xl px-4 py-3 max-w-[85%] animate-slide-up;
+  }
+
+  .chat-bubble-npc {
+    @apply bg-niwa-npc text-niwa-text rounded-tl-sm;
+  }
+
+  .chat-bubble-player {
+    @apply bg-niwa-player text-niwa-text rounded-tr-sm;
+  }
+
+  .chat-bubble-system {
+    @apply bg-transparent text-niwa-accent italic text-center text-sm max-w-full;
+  }
+
+  .choice-btn {
+    @apply w-full text-left px-4 py-3 rounded-xl border border-niwa-border
+           bg-niwa-surface hover:bg-niwa-card hover:border-niwa-primary
+           transition-all duration-200 cursor-pointer
+           text-niwa-text text-sm leading-relaxed;
+  }
+
+  .choice-btn:hover {
+    @apply shadow-lg shadow-niwa-primary/10;
+  }
+
+  .choice-btn:active {
+    @apply scale-[0.98];
+  }
+
+  .nav-btn {
+    @apply px-4 py-2 rounded-lg text-sm font-medium
+           bg-niwa-card border border-niwa-border
+           hover:bg-niwa-primary hover:border-niwa-primary
+           transition-all duration-200 cursor-pointer
+           text-niwa-text;
+  }
+
+  .nav-btn-new {
+    @apply animate-pulse-soft border-niwa-accent text-niwa-accent;
+  }
+}

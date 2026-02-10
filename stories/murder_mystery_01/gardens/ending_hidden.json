@@ -1,0 +1,26 @@
+{
+  "garden_id": "ending_hidden",
+  "display": {
+    "name": "Ending: Echoes at Eleven",
+    "description": "The true ending. Through empathy, persistence, and courage, you uncovered every piece of the puzzle and protected everyone along the way. Moriyama's truth lives on, and so do the people he cared about."
+  },
+
+  "lorebook": [
+    {
+      "id": "ending_hidden_setting",
+      "type": "constant",
+      "position": "before_char_defs",
+      "content": "[Scene: The corner caf\u00e9, one month later. It's been renovated slightly \u2014 new flowers on the tables, a small photo of Moriyama on the wall near 'his' window seat. A celebration of sorts: Tanaka, Kobayashi, and Yamamoto are all here. Even Mama Ito sent a bottle of something expensive.]"
+    },
+    {
+      "id": "ending_hidden_narration",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[Character: Multiple characters are present. Kobayashi is hosting, looking genuinely happy for the first time. Tanaka is off-duty, casual, almost friendly. Yamamoto brought homemade food. The player should interact with everyone. The full truth came out: Ogawa and Shinji arrested, Ryota turned state's witness and is in protection, Moriyama's investigation published posthumously, city reform underway. But more than that \u2014 the player did it the right way. No threats, no manipulation, no collateral damage. They showed empathy to every person they met. Kobayashi and Ryota's relationship is healing. Yamamoto is no longer afraid. This is the BEST ending \u2014 truth AND compassion. The echoes at eleven are silenced at last.]"
+    }
+  ],
+
+  "evaluators": [],
+  "passages": [],
+  "scripted_opener": "One month later, you push open the caf\u00e9 door for what feels like the hundredth time. But today is different.\n\nThere are flowers on every table. A small framed photo of Moriyama sits on the windowsill by his favorite seat, next to a cup of black coffee that no one will drink. And the caf\u00e9 is full \u2014 fuller than you've ever seen it.\n\nKobayashi waves you in, beaming. Actually beaming. \"You came!\" Behind her, Detective Tanaka raises a glass of something that definitely isn't police-issue. Yamamoto is arranging homemade onigiri on a plate, fussing over the presentation.\n\nOn the counter, a newspaper with the headline: 'OGAWA CORRUPTION TRIAL BEGINS \u2014 KEY WITNESS UNDER PROTECTION.' And below, a smaller story: 'Journalist Moriyama's Unfinished Investigation Published Posthumously.'\n\n\"We saved you a seat,\" Kobayashi says, gesturing to the chair by the window. \"His seat, actually. I think he'd have wanted you to have it.\""
+}

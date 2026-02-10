@@ -1,0 +1,60 @@
+{
+  "garden_id": "police_station_evidence",
+  "display": {
+    "name": "Police Station (With Evidence)",
+    "description": "You return to the police station armed with witness testimony. Detective Tanaka's skeptical expression shifts to genuine interest as you walk through the door."
+  },
+
+  "lorebook": [
+    {
+      "id": "station_evidence_setting",
+      "type": "constant",
+      "position": "before_char_defs",
+      "content": "[Scene: Detective Tanaka's office, same cramped space. But this time, the atmosphere is different. The player has come with real information. Tanaka can sense it.]"
+    },
+    {
+      "id": "tanaka_evidence_base",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[Character: Detective Tanaka Hiroshi. Same as before, but now he's more receptive. The player has witness information (someone was seen leaving the victim's building at 11:23 PM). If the player shares this, Tanaka becomes a genuine ally. He'll share the police file: autopsy details, crime scene photos description, and the fact that they suspect someone named Ryota Kaneda \u2014 the victim's former colleague who had a public falling out with Moriyama. He also mentions the underground bar 'The Lantern' where Ryota is known to drink. This visit grants CLUE_B (the suspect's name and police file access).]"
+    },
+    {
+      "id": "tanaka_cooperative",
+      "type": "constant",
+      "position": "after_char_defs",
+      "content": "[INSTRUCTION: Tanaka is noticeably more engaged. He offers coffee. He speaks more openly but still maintains professional boundaries. He's genuinely interested in solving this case and sees the player as a potential asset. He shares information in exchange for what the player knows.]"
+    },
+    {
+      "id": "tanaka_shares_file",
+      "type": "triggered",
+      "keys": ["witness", "saw someone", "11:23", "back door", "leaving", "apartment building", "Kobayashi"],
+      "case_sensitive": false,
+      "scan_depth": 4,
+      "content": "[INSTRUCTION: Tanaka leans forward, suddenly very alert. 'You have an actual witness?' He pulls out a file. 'Alright, quid pro quo. The victim's former colleague, Ryota Kaneda, was our person of interest. They had a public argument two weeks before the murder about a story Moriyama was writing. Kaneda works at the city planning office \u2014 connected to Councilman Ogawa's office.' He slides over some photos. 'No hard evidence yet, but your witness could change everything.' He gives the player the name: Ryota Kaneda. He also mentions 'The Lantern' \u2014 a bar where Kaneda drinks. This is CLUE_B.]"
+    }
+  ],
+
+  "evaluators": [
+    {
+      "id": "clue_b_obtained",
+      "description": "Player has learned the suspect's name (Ryota Kaneda) and his connection to the victim and Councilman Ogawa from the police file",
+      "method": "semantic",
+      "on_true": { "set_var": { "clue_b": true, "knows_suspect_name": true, "has_police_file": true }, "increment_score": { "truth": 15 } }
+    },
+    {
+      "id": "evidence_shared_with_police",
+      "description": "Player shared the witness testimony from the cafe with Tanaka",
+      "method": "semantic",
+      "on_true": { "set_var": { "detective_trust": 40 }, "increment_score": { "morality": 10, "truth": 5 } }
+    }
+  ],
+
+  "passages": [
+    { "id": "evidence_station_to_cafe", "to": "cafe", "label": "\u2615 Return to the caf\u00e9", "condition": "always" },
+    { "id": "evidence_station_to_apartment", "to": "victim_apartment", "label": "\ud83c\udfe0 Search the victim's apartment", "condition": "always" },
+    { "id": "evidence_station_to_bar", "to": "underground_bar", "label": "\ud83c\udf78 Find 'The Lantern' bar", "condition": "knows_suspect_name == true" },
+    { "id": "evidence_station_to_confrontation", "to": "confrontation", "label": "\u2694\ufe0f Confront the suspect", "condition": "has_all(clue_a, clue_b, clue_c)" }
+  ],
+
+  "scripted_opener": "Tanaka looks up as you enter, and something in your expression makes him put down his pen.\n\n\"You've got something,\" he says. It's not a question. He pushes a chair toward you with his foot. \"Sit down. Talk to me.\"\n\nFor the first time, he's looking at you like an equal rather than a nuisance."
+}
