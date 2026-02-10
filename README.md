@@ -20,37 +20,77 @@ Frontend (React + Tailwind) <-> WebSocket <-> Backend (Node.js + Express)
 
 ### Prerequisites
 - Node.js 18+
-- An Anthropic API key
+- An Anthropic API key ([get one here](https://console.anthropic.com/))
 
-### Setup
+### Step 1: Install all dependencies
 
-1. Install dependencies:
+From the **project root directory**:
+
 ```bash
-npm run install:all
+npm install
+cd backend && npm install && cd ..
+cd frontend && npm install && cd ..
 ```
 
-2. Configure the backend:
+### Step 2: Configure your API key
+
 ```bash
 cp backend/.env.example backend/.env
-# Edit backend/.env with your ANTHROPIC_API_KEY
 ```
 
-3. Start development servers:
+Then edit `backend/.env` and replace `your_api_key_here` with your actual Anthropic API key:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+### Step 3: Start the application
+
+You have two options:
+
+#### Option A: Development mode (two terminals)
+
+Terminal 1 — start the backend:
 ```bash
+cd backend
 npm run dev
 ```
 
-This starts:
-- Backend on http://localhost:3001
-- Frontend on http://localhost:5173
+Terminal 2 — start the frontend:
+```bash
+cd frontend
+npm run dev
+```
 
-### How to Play
+Then open **http://localhost:5173** in your browser.
 
-1. Open http://localhost:5173 in your browser
-2. Click "Begin Investigation" to start the mystery
-3. Each turn, you'll see **3 dialogue choices** - pick one to continue the conversation
-4. As you uncover information, new locations will become available in the navigation bar
+#### Option B: Production mode (single server)
+
+Build the frontend first, then run the backend which serves it:
+
+```bash
+cd frontend && npm run build && cd ..
+cd backend && npm run dev
+```
+
+Then open **http://localhost:3001** in your browser.
+
+### Step 4: Play
+
+1. Open the URL from Step 3 in your browser
+2. Click **"Begin Investigation"** to start the mystery
+3. Each turn, you'll see **3 dialogue choices** — pick one to continue the conversation
+4. As you uncover information, new locations will appear in the navigation bar at the bottom
 5. Your approach (empathetic vs aggressive, thorough vs hasty) determines which of 4 endings you get
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `Failed to load story` | Make sure you're running the backend from the `backend/` directory, not the project root |
+| `Connecting to server...` on frontend | Make sure the backend is running on port 3001 |
+| `ANTHROPIC_API_KEY` errors | Make sure you copied `.env.example` to `.env` and added your real API key |
+| Frontend shows blank page | In dev mode, make sure you open `http://localhost:5173`, not `http://localhost:3001` |
 
 ## Project Structure
 
@@ -134,6 +174,5 @@ Endings are determined by your final scores:
 2. Define `story.json` with your world graph, variables, and endings
 3. Create garden JSON files for each scene
 4. Define lorebook entries, evaluators, and passages
-5. Run with `STORIES_PATH` pointing to your stories directory
 
 See `stories/murder_mystery_01/` for a complete example.

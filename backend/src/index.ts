@@ -2,6 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -28,9 +29,10 @@ async function main() {
   const primaryLLM = new AnthropicProvider(config.primaryModel);
   const evaluatorLLM = new AnthropicProvider(config.evaluatorModel);
 
-  // Initialize story loader
+  // Initialize story loader — resolve relative to this file's directory
   const storiesPath = path.resolve(__dirname, config.storiesPath);
   const storyLoader = new StoryLoader(storiesPath);
+  console.log(`Stories path: ${storiesPath}`);
 
   // Load the default story
   const defaultStoryId = 'murder_mystery_01';
@@ -42,6 +44,7 @@ async function main() {
     console.log(`Loaded story: ${story.metadata.title} (${gardens.size} gardens)`);
   } catch (error) {
     console.error(`Failed to load story ${defaultStoryId}:`, error);
+    console.error(`Looked in: ${path.join(storiesPath, defaultStoryId, 'story.json')}`);
     process.exit(1);
   }
 
@@ -55,12 +58,20 @@ async function main() {
   // Setup REST routes
   app.use(createRoutes(storyLoader));
 
-  // Serve frontend static files in production
+  // Serve frontend static files only if the build exists (production mode)
   const frontendBuildPath = path.resolve(__dirname, '../../frontend/dist');
-  app.use(express.static(frontendBuildPath));
-  app.get('*', (_req, res) => {
-    res.sendFile(path.join(frontendBuildPath, 'index.html'));
-  });
+  const frontendIndexPath = path.join(frontendBuildPath, 'index.html');
+
+  if (fs.existsSync(frontendIndexPath)) {
+    console.log(`Serving frontend from: ${frontendBuildPath}`);
+    app.use(express.static(frontendBuildPath));
+    app.get('*', (_req, res) => {
+      res.sendFile(frontendIndexPath);
+    });
+  } else {
+    console.log(`Frontend build not found at ${frontendBuildPath}`);
+    console.log(`In development, run the frontend separately: cd frontend && npm run dev`);
+  }
 
   // Setup WebSocket
   const io = new Server(httpServer, {
@@ -74,8 +85,13 @@ async function main() {
 
   // Start server
   httpServer.listen(config.port, () => {
-    console.log(`NIWA server running on http://localhost:${config.port}`);
+    console.log(`\nNIWA server running on http://localhost:${config.port}`);
     console.log(`WebSocket listening on ws://localhost:${config.port}`);
+    if (!fs.existsSync(frontendIndexPath)) {
+      console.log(`\nOpen http://localhost:5173 in your browser (Vite dev server)`);
+    } else {
+      console.log(`\nOpen http://localhost:${config.port} in your browser`);
+    }
   });
 }
 
