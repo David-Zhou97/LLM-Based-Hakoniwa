@@ -127,8 +127,7 @@ export class GardenManager {
       const response = await this.primaryLLM.generate({
         system: systemPrompt,
         messages: [
-          { role: 'assistant', content: openingMessage },
-          { role: 'user', content: '[SYSTEM: Generate 3 response choices for the player based on the NPC\'s opening. Format: [CHOICE_1] ..., [CHOICE_2] ..., [CHOICE_3] ...]' },
+          { role: 'user', content: `[The NPC greets the player with the following dialogue:]\n\n${openingMessage}\n\n[SYSTEM: Generate exactly 3 response choices for the player based on the NPC's opening. Format each on a new line: [CHOICE_1] ..., [CHOICE_2] ..., [CHOICE_3] ...]` },
         ],
         maxTokens: 256,
       });
