@@ -49,8 +49,9 @@ export function setupSocketHandlers(
           choices: result.choices,
         });
       } catch (error) {
-        console.error('Failed to start game:', error);
-        socket.emit('error', { message: 'Failed to start game' });
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Failed to start game:', message);
+        socket.emit('error', { message: `Failed to start game: ${message}` });
       }
     });
 
@@ -98,8 +99,9 @@ export function setupSocketHandlers(
           });
         }
       } catch (error) {
-        console.error('Failed to process message:', error);
-        socket.emit('error', { message: 'Failed to process message' });
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Failed to process message:', message);
+        socket.emit('error', { message: `Failed to process message: ${message}` });
       }
     });
 
@@ -160,8 +162,9 @@ export function setupSocketHandlers(
           }
         }
       } catch (error) {
-        console.error('Failed to navigate:', error);
-        socket.emit('error', { message: 'Failed to navigate passage' });
+        const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Failed to navigate:', message);
+        socket.emit('error', { message: `Failed to navigate passage: ${message}` });
       }
     });
 
