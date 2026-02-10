@@ -112,7 +112,12 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return { ...state, isWaitingForResponse: action.waiting };
 
     case 'SET_ERROR':
-      return { ...state, error: action.error, isWaitingForResponse: false };
+      return {
+        ...state,
+        error: action.error,
+        isWaitingForResponse: false,
+        phase: state.phase === 'loading' ? 'title' : state.phase,
+      };
 
     case 'RESET':
       return initialGameState;
