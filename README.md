@@ -27,6 +27,8 @@ Frontend (React + Tailwind) <-> WebSocket <-> Backend (Node.js + Express)
 From the **project root directory**:
 
 ```bash
+git clone https://github.com/David-Zhou97/LLM-Based-Hakoniwa.git
+cd LLM-Based-Hakoniwa
 npm install
 cd backend && npm install && cd ..
 cd frontend && npm install && cd ..
